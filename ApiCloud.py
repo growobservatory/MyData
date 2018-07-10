@@ -30,7 +30,7 @@ class ApiCloud:
             self.__logged = True
             self.__token = req.json()
             token=req.json()
-            print "Loggin successful!"
+            print ("Loggin successful!")
             return True
         else:
             self.__logged = False
