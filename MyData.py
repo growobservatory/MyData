@@ -10,7 +10,8 @@ import getpass
 #client_secret = 'longsecretkeyfromparrot'
 from Secret import *
 
-username=raw_input("Username: ")
+#username=raw_input("Username: ")
+username=str(input("Username:"))
 password=getpass.getpass()
 
 api = ApiCloud(client_id, client_secret)
