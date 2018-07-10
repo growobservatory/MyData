@@ -15,7 +15,7 @@ def dumpAllFlowerPower(api, since="born", until="today"):
     for location in sensorDataSync["locations"]:
         err = dumpFlowerPower(api, location, since, until)
         if (err == -1):
-            print "Your 'Since' date is after your 'Until' date !?"
+            print ("Your 'Since' date is after your 'Until' date !?")
             break ;
 
 
@@ -30,8 +30,8 @@ def dumpFlowerPower(api, location, since, until):
     else:
         since = datetime.strptime(since, dateFormat)
       
-    print location['latitude']
-    print location['longitude']
+    print (location['latitude'])
+    print (location['longitude'])
     meta.update({"latitude":location['latitude']})
     meta.update({"longitude":location['longitude']})
     meta.update({"Type":"FlowerPower"})
@@ -45,11 +45,11 @@ def dumpFlowerPower(api, location, since, until):
         SerialNumber=location['sensor']['sensor_serial']
       
         SensorUUID=SerialNumber
-        print "Dump " + location['sensor']['sensor_identifier']+ location['sensor']['firmware_version'] + '.csv'
-        print " location_identifier "+location['location_identifier']
+        print ("Dump " + location['sensor']['sensor_identifier']+ location['sensor']['firmware_version'] + '.csv')
+        print (" location_identifier "+location['location_identifier'])
        
-        print " From: " + str(since)[:19]
-        print " To:   " + str(until)[:19]
+        print (" From: " + str(since)[:19])
+        print (" To:   " + str(until)[:19])
         fileCsv = csv.writer(open(location['sensor']['sensor_identifier'] + ".csv", "w"))
         fileCsv.writerow(["capture_datetime_utc", "fertilizer_level", "light", "soil_moisture_percent", "air_temperature_celsius"])
 #        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
