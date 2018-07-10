@@ -34,7 +34,7 @@ class ApiCloud:
             return True
         else:
             self.__logged = False
-            print "Loggin Failure: " + req.json()['error']
+            print ("Loggin Failure: " + req.json()['error'])
             return False
 
     def getSensorStatus(self):
