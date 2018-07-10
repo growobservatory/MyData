@@ -58,7 +58,7 @@ def dumpFlowerPower(api, location, since, until):
             samplesLocation = api.getSamplesLocation(location['location_identifier'], since, since + timedelta(days=7))
 			
             if (len(samplesLocation["errors"])):
-                print location['sensor']['sensor_identifier'], samplesLocation["errors"][0]["error_message"]
+                print (location['sensor']['sensor_identifier'], samplesLocation["errors"][0]["error_message"])
                 continue
             
             for sample in samplesLocation['samples']:
@@ -81,6 +81,6 @@ def dumpFlowerPower(api, location, since, until):
                 
                 a=json.dumps({"SensorData":SensorData,"meta":meta,"sensors":arr})
             since += timedelta(days=7)
-        print
+        print()
         
         return 0
