@@ -3,11 +3,15 @@ from CSVDump import *
 from datetime import *
 import time
 import sys
-# First we set our credentials
+import getpass
+#Secret.py is a file with the client id and secret for the API
+#Should be of the form:
+#client_id = 'user@example.com'
+#client_secret = 'longsecretkeyfromparrot'
 from Secret import *
 
-username = 'andy@r2-dvd.org'
-password = '3ur0R8ck!'
+username=raw_input("Username: ")
+password=getpass.getpass()
 
 api = ApiCloud(client_id, client_secret)
 api.login(username, password)
