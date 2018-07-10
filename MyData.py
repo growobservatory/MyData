@@ -24,3 +24,9 @@ twodays= datetime.now()- timedelta(days=30)
 stwodays=twodays.strftime("%d-%b-%Y %H:%M:%S")
 
 dumpAllFlowerPower(api, stwodays,now, )
+
+if sys.version_info[0] <3 :
+   blank=raw_input("Press Return to finish: ")
+else:
+   blank=str(input("Press Return to finish: "))
+
