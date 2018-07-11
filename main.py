@@ -11,6 +11,7 @@ import getpass
 # client_secret = 'longsecretkeyfromparrot'
 from secret import *
 
+# get user credentials
 if sys.version_info[0] <3 :
    username=raw_input("Username: ")
 else:
@@ -18,15 +19,19 @@ else:
 
 password=getpass.getpass()
 
-api = mydata.api_cloud.ApiCloud(client_id, client_secret)
-api.login(username, password)
+# authenticate with parrot
+api_service = mydata.api_cloud.ApiCloud(client_id, client_secret)
+api_service.login(username, password)
 
+# set start and end date to use for querying data
 now = time.strftime("%d-%b-%Y %H:%M:%S")
 twodays= datetime.now()- timedelta(days=30)
 stwodays=twodays.strftime("%d-%b-%Y %H:%M:%S")
 
-mydata.csv_dump.dumpAllFlowerPower(api, stwodays, now)
+# output fetched data to csv file  
+mydata.csv_dump.dumpAllFlowerPower(api_service, stwodays, now)
 
+# finish
 if sys.version_info[0] < 3 :
    blank=raw_input("Press Return to finish: ")
 else:

@@ -16,9 +16,9 @@ class ApiCloud:
     self.__logged = False
     self.__token = {}
   
-  def credrentials(self, username):
+  def credentials(self, username):
     """ Sets user's credentials"""
-    
+
     self._credentials['username'] = username
     self.__logged = True
         

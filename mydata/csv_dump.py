@@ -6,14 +6,14 @@ import sys
 
 dateFormat = "%d-%b-%Y %H:%M:%S"
 
-def dumpAllFlowerPower(api, since="born", until="today"):
+def dumpAllFlowerPower(api_service, since="born", until="today"):
   """
   Loops over the available locations (aka sensors) and 
   collect data for output.
   """
-  status  = api.getSensorStatus()
+  status  = api_service.getSensorStatus()
 
-  sensorDataSync = api.getSensorDataSync()
+  sensorDataSync = api_service.getSensorDataSync()
 
   if not sensorDataSync:
     sys.exit("Error authenticating with the parrot API")
@@ -57,7 +57,6 @@ def dumpFlowerPower(api, location, since, until):
       samplesLocation = api.getSamplesLocation(location['location_identifier'], since, since + timedelta(days=7))
 
       if (len(samplesLocation["errors"])):
-        print (location['sensor']['sensor_identifier'], samplesLocation["errors"][0]["error_message"])
         continue
             
       for sample in samplesLocation['samples']:
@@ -72,16 +71,16 @@ def dumpFlowerPower(api, location, since, until):
         soil_moisture_percent = sample["soil_moisture_percent"]
         air_temperature_celsius = sample["air_temperature_celsius"]
         light = sample["light"]
+
         fileCsv.writerow([capture_datetime_utc, fertilizer_level, light, soil_moisture_percent, air_temperature_celsius])
-        arr.append({"name":"fertilizer_level","fValue":fertilizer_level})
-        arr.append({"name":"soil_moisture_percent","fValue":soil_moisture_percent})
-        arr.append({"name":"air_temperature_celsius","fValue":air_temperature_celsius})
-        arr.append({"name":"light","fValue":light})
+        
+        arr.append({"name":"fertilizer_level", "fValue":fertilizer_level})
+        arr.append({"name":"soil_moisture_percent", "fValue":soil_moisture_percent})
+        arr.append({"name":"air_temperature_celsius", "fValue":air_temperature_celsius})
+        arr.append({"name":"light", "fValue":light})
         
         a=json.dumps({"SensorData":sensor_data, "meta":meta, "sensors":arr})
 
       since += timedelta(days=7)
-        
-    print()
         
     return 0
