@@ -43,8 +43,9 @@ def dumpFlowerPower(api, location, since, until):
 
     elif (location['sensor']):
         SerialNumber=location['sensor']['sensor_serial']
-
+        NickName=location['sensor']['nickname']
         SensorUUID=SerialNumber
+
         print ("Sensor ID "+SensorUUID)
         print ("Dump " + location['sensor']['sensor_identifier']+ location['sensor']['firmware_version'] + '.csv')
         print (" location_identifier "+location['location_identifier'])
@@ -52,7 +53,7 @@ def dumpFlowerPower(api, location, since, until):
         print (" From: " + str(since)[:19])
         print (" To:   " + str(until)[:19])
         fileCsv = csv.writer(open(location['sensor']['sensor_identifier'] + ".csv", "w"))
-        fileCsv.writerow(["serial_number","capture_datetime_utc", "fertilizer_level", "light", "soil_moisture_percent", "air_temperature_celsius"])
+        fileCsv.writerow(["NickName","serial_number","capture_datetime_utc", "fertilizer_level", "light", "soil_moisture_percent", "air_temperature_celsius"])
 #        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #        clientsocket.connect(("0.0.0.0", 19877))
         while (since < until):
@@ -74,7 +75,7 @@ def dumpFlowerPower(api, location, since, until):
                 soil_moisture_percent = sample["soil_moisture_percent"]
                 air_temperature_celsius = sample["air_temperature_celsius"]
                 light = sample["light"]
-                fileCsv.writerow([SerialNumber,capture_datetime_utc, fertilizer_level, light, soil_moisture_percent, air_temperature_celsius])
+                fileCsv.writerow([NickName,SerialNumber,capture_datetime_utc, fertilizer_level, light, soil_moisture_percent, air_temperature_celsius])
                 arr.append({"name":"fertilizer_level","fValue":fertilizer_level})
                 arr.append({"name":"soil_moisture_percent","fValue":soil_moisture_percent})
                 arr.append({"name":"air_temperature_celsius","fValue":air_temperature_celsius})
