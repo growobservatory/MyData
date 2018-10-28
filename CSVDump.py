@@ -5,6 +5,7 @@ import csv
 import json
 import socket
 import uuid
+from os.path import expanduser
 
 dateFormat = "%d-%b-%Y %H:%M:%S"
 
@@ -52,7 +53,8 @@ def dumpFlowerPower(api, location, since, until):
 
         print (" From: " + str(since)[:19])
         print (" To:   " + str(until)[:19])
-        fileCsv = csv.writer(open(location['sensor']['sensor_identifier'] + ".csv", "w"))
+        home = expanduser("~")
+        fileCsv = csv.writer(open(home+"/Desktop/"+location['sensor']['sensor_identifier'] + ".csv", "w"))
         fileCsv.writerow(["NickName","serial_number","capture_datetime_utc", "fertilizer_level", "light", "soil_moisture_percent", "air_temperature_celsius"])
 #        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #        clientsocket.connect(("0.0.0.0", 19877))
