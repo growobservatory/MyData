@@ -16,11 +16,16 @@ else:
    username=str(input("Username:"))
 password=getpass.getpass()
 
+if sys.version_info[0] <3 :
+   numdays=int(raw_input("Number of Days: "))
+else:
+   numdays=int(str(input("Number of Days:")))
+
 api = ApiCloud(client_id, client_secret)
 api.login(username, password)
 
 now = time.strftime("%d-%b-%Y %H:%M:%S")
-twodays= datetime.now()- timedelta(days=30)
+twodays= datetime.now()- timedelta(days=numdays)
 stwodays=twodays.strftime("%d-%b-%Y %H:%M:%S")
 
 dumpAllFlowerPower(api, stwodays,now, )
