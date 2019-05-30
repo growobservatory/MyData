@@ -16,13 +16,17 @@ else:
    username=str(input("Username:"))
 password=getpass.getpass()
 
+
+api = ApiCloud(client_id, client_secret)
+
+if (api.login(username, password) == False):
+   print "Logon failed"
+   sys.exit()
+
 if sys.version_info[0] <3 :
    numdays=int(raw_input("Number of Days: "))
 else:
    numdays=int(str(input("Number of Days:")))
-
-api = ApiCloud(client_id, client_secret)
-api.login(username, password)
 
 now = time.strftime("%d-%b-%Y %H:%M:%S")
 twodays= datetime.now()- timedelta(days=numdays)
