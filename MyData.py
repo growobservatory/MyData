@@ -31,8 +31,9 @@ else:
 now = time.strftime("%d-%b-%Y %H:%M:%S")
 twodays= datetime.now()- timedelta(days=numdays)
 stwodays=twodays.strftime("%d-%b-%Y %H:%M:%S")
-
-dumpAllFlowerPower(api, stwodays,now, )
+home = expanduser("~")
+SummaryfileCsv = csv.writer(open(home+"/Desktop/"+username + ".csv", "w"))
+dumpAllFlowerPower(api, username,stwodays,now)
 
 if sys.version_info[0] <3 :
    blank=raw_input("Press Return to finish: ")

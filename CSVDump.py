@@ -9,18 +9,19 @@ from os.path import expanduser
 
 dateFormat = "%d-%b-%Y %H:%M:%S"
 
-def dumpAllFlowerPower(api, since="born", until="today"):
+def dumpAllFlowerPower(api, account,since="born", until="today"):
     status  = api.getSensorStatus()
 
     sensorDataSync = api.getSensorDataSync()
+#    print json.dumps(sensorDataSync,indent=4,sort_keys=True)     
     for location in sensorDataSync["locations"]:
-        err = dumpFlowerPower(api, location, since, until)
+        err = dumpFlowerPower(api, location, since, until,account)
         if (err == -1):
             print ("Your 'Since' date is after your 'Until' date !?")
             break ;
 
 
-def dumpFlowerPower(api, location, since, until):
+def dumpFlowerPower(api, location, since, until,account):
     meta=dict()
     if (until == "today"):
         until = datetime.today()
@@ -55,19 +56,22 @@ def dumpFlowerPower(api, location, since, until):
         print (" From: " + str(since)[:19])
         print (" To:   " + str(until)[:19])
         home = expanduser("~")
+        location_identifier=location['location_identifier']
+        SummaryfileCsv = csv.writer(open(home+"/Desktop/"+account + ".csv", "a"))
+
         fileCsv = csv.writer(open(home+"/Desktop/"+location['sensor']['sensor_identifier'] + ".csv", "w"))
         fileCsv.writerow(["Plant Nickname","SensorIdentifier","NickName","serial_number","capture_datetime_utc", "fertilizer_level", "light", "soil_moisture_percent", "air_temperature_celsius"])
         fileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber])        
+        last_datetime="None"
+
         while (since < until):
             samplesLocation = api.getSamplesLocation(location['location_identifier'], since, since + timedelta(days=7))
 
             if (len(samplesLocation["errors"])):
                 print (location['sensor']['sensor_identifier'], samplesLocation["errors"][0]["error_message"])
                 continue
-
             for sample in samplesLocation['samples']:
                 SensorData=dict()
-                arr = []
 
                 SensorData.update({"device":SensorUUID})
 
@@ -78,13 +82,8 @@ def dumpFlowerPower(api, location, since, until):
                 air_temperature_celsius = sample["air_temperature_celsius"]
                 light = sample["light"]
                 fileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber,capture_datetime_utc, fertilizer_level, light, soil_moisture_percent, air_temperature_celsius])
-                arr.append({"name":"fertilizer_level","fValue":fertilizer_level})
-                arr.append({"name":"soil_moisture_percent","fValue":soil_moisture_percent})
-                arr.append({"name":"air_temperature_celsius","fValue":air_temperature_celsius})
-                arr.append({"name":"light","fValue":light})
-
-                a=json.dumps({"SensorData":SensorData,"meta":meta,"sensors":arr})
+                last_datetime=capture_datetime_utc
             since += timedelta(days=7)
         print()
-
+        SummaryfileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber,location_identifier,location['latitude'],location['longitude'],last_datetime] )
         return 0
