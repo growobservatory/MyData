@@ -15,8 +15,6 @@ if sys.version_info[0] <3 :
 else:
    username=str(input("Username:"))
 password=getpass.getpass()
-
-
 api = ApiCloud(client_id, client_secret)
 
 if (api.login(username, password) == False):
