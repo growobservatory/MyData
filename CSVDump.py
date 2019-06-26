@@ -31,7 +31,7 @@ def dumpFlowerPower(api, location, since, until,account):
         since = until - timedelta(days=7)
     else:
         since = datetime.strptime(since, dateFormat)
-
+    now = until.strftime("%d-%b-%Y")
     print (location['latitude'])
     print (location['longitude'])
     meta.update({"latitude":location['latitude']})
@@ -59,7 +59,7 @@ def dumpFlowerPower(api, location, since, until,account):
         location_identifier=location['location_identifier']
         SummaryfileCsv = csv.writer(open(home+"/Desktop/"+account + ".csv", "a"))
 
-        fileCsv = csv.writer(open(home+"/Desktop/"+location['sensor']['sensor_identifier'] + ".csv", "w"))
+        fileCsv = csv.writer(open(home+"/Desktop/"+location['sensor']['sensor_identifier'] +"-"+now+ ".csv", "w"))
         fileCsv.writerow(["Plant Nickname","SensorIdentifier","NickName","serial_number","capture_datetime_utc", "fertilizer_level", "light", "soil_moisture_percent", "air_temperature_celsius"])
         fileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber])        
         last_datetime="None"
