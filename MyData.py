@@ -12,7 +12,7 @@ from Secret import *
 
 
 
-print("MyData Version Alpha 0.16")
+print("MyData Version Alpha 0.18")
 if sys.version_info[0] <3 :
    username=raw_input("Username: ")
 else:
