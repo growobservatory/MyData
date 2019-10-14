@@ -58,10 +58,14 @@ def dumpFlowerPower(api, location, since, until,account):
         home = expanduser("~")
         location_identifier=location['location_identifier']
         SummaryfileCsv = csv.writer(open(home+"/Desktop/"+account + ".csv", "a"))
-
+        DownloadSummaryfileCsv = csv.writer(open(home+"/Downloads/"+account + ".csv", "a"))
         fileCsv = csv.writer(open(home+"/Desktop/"+location['sensor']['sensor_identifier'] +"-"+now+ ".csv", "w"))
+        DownloadfileCsv = csv.writer(open(home+"/Downloads/"+location['sensor']['sensor_identifier'] +"-"+now+ ".csv", "w"))
         fileCsv.writerow(["Plant Nickname","SensorIdentifier","NickName","serial_number","capture_datetime_utc", "fertilizer_level", "light", "soil_moisture_percent", "air_temperature_celsius"])
         fileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber])        
+        DownloadfileCsv.writerow(["Plant Nickname","SensorIdentifier","NickName","serial_number","capture_datetime_utc", "fertiliz\
+er_level", "light", "soil_moisture_percent", "air_temperature_celsius"])
+        DownloadfileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber])
         last_datetime="None"
 
         while (since < until):
@@ -82,8 +86,9 @@ def dumpFlowerPower(api, location, since, until,account):
                 air_temperature_celsius = sample["air_temperature_celsius"]
                 light = sample["light"]
                 fileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber,capture_datetime_utc, fertilizer_level, light, soil_moisture_percent, air_temperature_celsius])
+                DownloadfileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber,capture_datetime_utc, fertilizer_level, light, soil_moisture_percent, air_temperature_celsius])
                 last_datetime=capture_datetime_utc
             since += timedelta(days=7)
         print()
-        SummaryfileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber,location_identifier,location['latitude'],location['longitude'],last_datetime] )
+        DownloadSummaryfileCsv.writerow([Plant_Nickname,SensorIdentifier,NickName,SerialNumber,location_identifier,location['latitude'],location['longitude'],last_datetime] )
         return 0
