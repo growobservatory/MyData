@@ -10,6 +10,9 @@ import getpass
 #client_secret = 'longsecretkeyfromparrot'
 from Secret import *
 
+
+
+print("MyData Version Alpha 0.16")
 if sys.version_info[0] <3 :
    username=raw_input("Username: ")
 else:
