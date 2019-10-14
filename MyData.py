@@ -21,7 +21,9 @@ password=getpass.getpass()
 api = ApiCloud(client_id, client_secret)
 
 if (api.login(username, password) == False):
+   print ("---------------------")
    print ("Logon failed")
+   print ("---------------------")
    sys.exit()
 
 if sys.version_info[0] <3 :
